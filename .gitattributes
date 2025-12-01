@@ -1,0 +1,2 @@
+*.html linguist-vendored
+*.mac linguist-language=JavaScript
