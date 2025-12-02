@@ -1,5 +1,5 @@
 ﻿/*
- * HmOpenAntiGravityFromHidemaru v 1.2.1.5
+ * HmOpenAntiGravityFromHidemaru v 1.2.1.6
  * Copyright (C) 2021-2025 Akitsugu Komiyama
  * under the MIT License
  */ 
@@ -31,7 +31,7 @@ var currentFileFullPath = hidemaru.getFileFullPath();
 function getAntiGravityAbsolutePath() {
     if (!antigravigyAbsolutePath) {
         try {
-            var success = openreg("CLASSESROOT", "Applications\\AntiGravity.exe\\shell\\open");
+            var success = openreg("CLASSESROOT", "Applications\\Antigravity.exe\\shell\\open");
             if (success) {
                 antigravigyAbsolutePath = getregstr("Icon");
                 antigravigyAbsolutePath = antigravigyAbsolutePath.replace(/"/g, '');
@@ -42,7 +42,7 @@ function getAntiGravityAbsolutePath() {
     }
     if (!antigravigyAbsolutePath) {
         try {
-            var success = openreg("CURRENTUSER", "SOFTWARE\\Classes\\Applications\\AntiGravity.exe\\shell\\open");
+            var success = openreg("CURRENTUSER", "SOFTWARE\\Classes\\Applications\\Antigravity.exe\\shell\\open");
             if (success) {
                 antigravigyAbsolutePath = getregstr("Icon");
                 antigravigyAbsolutePath = antigravigyAbsolutePath.replace(/"/g, '');
