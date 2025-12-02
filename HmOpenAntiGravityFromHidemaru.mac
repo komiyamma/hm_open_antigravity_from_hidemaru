@@ -11,8 +11,8 @@ setcompatiblemode 0x08000000;
 jsmode "JScript\\" + currentmacrofilename;
 js {
 
-// AntiGravityの絶対パスの設定。antigravigy.exe (もしくはantigravigy.cmd)の場所を設定する。設定していない場合は一応自動で探す。例：@"C:\usr\antigravigy\antigravigy.exe"
-var antigravigyAbsolutePath = @"";
+// AntiGravityの絶対パスの設定。antigravity.exe (もしくはantigravity.cmd)の場所を設定する。設定していない場合は一応自動で探す。例：@"C:\usr\antigravity\antigravity.exe"
+var antigravityAbsolutePath = @"";
 
 
 
@@ -29,46 +29,46 @@ var currentFileFullPath = hidemaru.getFileFullPath();
 
 // AntiGravityのパスを探す
 function getAntiGravityAbsolutePath() {
-    if (!antigravigyAbsolutePath) {
+    if (!antigravityAbsolutePath) {
         try {
             var success = openreg("CLASSESROOT", "Applications\\Antigravity.exe\\shell\\open");
             if (success) {
-                antigravigyAbsolutePath = getregstr("Icon");
-                antigravigyAbsolutePath = antigravigyAbsolutePath.replace(/"/g, '');
+                antigravityAbsolutePath = getregstr("Icon");
+                antigravityAbsolutePath = antigravityAbsolutePath.replace(/"/g, '');
             }
         } finally {
             closereg();
         }
     }
-    if (!antigravigyAbsolutePath) {
+    if (!antigravityAbsolutePath) {
         try {
             var success = openreg("CURRENTUSER", "SOFTWARE\\Classes\\Applications\\Antigravity.exe\\shell\\open");
             if (success) {
-                antigravigyAbsolutePath = getregstr("Icon");
-                antigravigyAbsolutePath = antigravigyAbsolutePath.replace(/"/g, '');
+                antigravityAbsolutePath = getregstr("Icon");
+                antigravityAbsolutePath = antigravityAbsolutePath.replace(/"/g, '');
             }
         } finally {
             closereg();
         }
     }
-    if (!antigravigyAbsolutePath) {
+    if (!antigravityAbsolutePath) {
         // Whereで見つかるようならzipか何かで展開しただけのものを、手動でパスを通しているのだろう。
-        runex("where antigravigy.cmd", 1, 0, "", 0, "", 0, "", 0, "", 2, 0, 0, 0);
+        runex("where antigravity.cmd", 1, 0, "", 0, "", 0, "", 0, "", 2, 0, 0, 0);
         // 発見したようだ。
         if (getresultex(9) == 0) {
-            antigravigyAbsolutePath = "antigravigy.cmd";
+            antigravityAbsolutePath = "antigravity.cmd";
         }
     }
-    if (!antigravigyAbsolutePath) {
+    if (!antigravityAbsolutePath) {
         // Whereで見つかるようならzipか何かで展開しただけのものを、手動でパスを通しているのだろう。
-        runex("where antigravigy.exe", 1, 0, "", 0, "", 0, "", 0, "", 2, 0, 0, 0);
+        runex("where antigravity.exe", 1, 0, "", 0, "", 0, "", 0, "", 2, 0, 0, 0);
         // 発見したようだ。
         if (getresultex(9) == 0) {
-            antigravigyAbsolutePath = "antigravigy.exe";
+            antigravityAbsolutePath = "antigravity.exe";
         }
     }
 
-    return antigravigyAbsolutePath;
+    return antigravityAbsolutePath;
 }
 
 
@@ -80,10 +80,10 @@ findGitDir();
 function findGitDir() {
     try {
         // AntiGravityは、PCにちゃんと入っとるんか？
-        antigravigyAbsolutePath = getAntiGravityAbsolutePath();
+        antigravityAbsolutePath = getAntiGravityAbsolutePath();
 
-        // antigravigyのパス自体が見つかってないか、パスは見つかったがそこにファイルが存在しない
-        if (!antigravigyAbsolutePath || !fso.FileExists(antigravigyAbsolutePath)) {
+        // antigravityのパス自体が見つかってないか、パスは見つかったがそこにファイルが存在しない
+        if (!antigravityAbsolutePath || !fso.FileExists(antigravityAbsolutePath)) {
             throw "AntiGravityが発見できませんでした。\nマクロ「HmOpenAntiGravityFromHidemaru.mac」を編集し、変数「AntiGravityAbsoluePath」にAntiGravityのパスを設定してください。";
         }
 
@@ -170,7 +170,7 @@ function syncOpenAntiGravity() {
 // 何も引数なしでAntiGravityを実行するだけ
 function openAntiGravityNoArgs() {
     // 対象のファイルなし
-    var command = sprintf('"%s"', antigravigyAbsolutePath);
+    var command = sprintf('"%s"', antigravityAbsolutePath);
     openAntiGravityCommand(command);
 }
 
@@ -186,7 +186,7 @@ function makeTempFile() {
 // 同期関数。AntiGravityを指定のファイル、指定のディレクトリ(ワークスペース想定)、指定のポジションで開く
 function openAntiGravity() {
 
-    if (!antigravigyAbsolutePath) { return; }
+    if (!antigravityAbsolutePath) { return; }
 
     // ファイルなし
     if (!currentFileFullPath) { return; }
@@ -218,12 +218,12 @@ function openAntiGravity() {
 
         // ソースビューへと自動で移行。対象のリポジトリを作業場として、対象のファイルをunicodeベース換算でのlinenoとcolumn
         var command = sprintf('"%s" -n -g "%s" "%s:%d:%d" --extensionDevelopmentPath="%s"',
-                              antigravigyAbsolutePath, workSpaceDir, currentFileFullPath, cursorPos.lineno, cursorPos.column + 1, currentMacroDirectory + "\\antigravity_extension");
+                              antigravityAbsolutePath, workSpaceDir, currentFileFullPath, cursorPos.lineno, cursorPos.column + 1, currentMacroDirectory + "\\antigravity_extension");
     } else {
 
         // 対象のディレクトリを作業場として、対象のファイルをunicodeベース換算でのlinenoとcolumn
         var command = sprintf('"%s" -n -g "%s" "%s:%d:%d"',
-                              antigravigyAbsolutePath, workSpaceDir, currentFileFullPath, cursorPos.lineno, cursorPos.column + 1);
+                              antigravityAbsolutePath, workSpaceDir, currentFileFullPath, cursorPos.lineno, cursorPos.column + 1);
     }
 
     openAntiGravityCommand(command);
