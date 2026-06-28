@@ -1,6 +1,6 @@
 ﻿/*
- * HmOpenAntiGravityFromHidemaru v 1.2.1.7
- * Copyright (C) 2021-2025 Akitsugu Komiyama
+ * HmOpenAntiGravityFromHidemaru v 1.2.2.1
+ * Copyright (C) 2021-2026 Akitsugu Komiyama
  * under the MIT License
  */ 
 
@@ -31,7 +31,7 @@ var currentFileFullPath = hidemaru.getFileFullPath();
 function getAntiGravityAbsolutePath() {
     if (!antiGravityAbsolutePath) {
         try {
-            var success = openreg("CLASSESROOT", "Applications\\Antigravity.exe\\shell\\open");
+            var success = openreg("CLASSESROOT", "Applications\\Antigravity IDE.exe\\shell\\open");
             if (success) {
                 antiGravityAbsolutePath = getregstr("Icon");
                 antiGravityAbsolutePath = antiGravityAbsolutePath.replace(/"/g, '');
@@ -42,7 +42,7 @@ function getAntiGravityAbsolutePath() {
     }
     if (!antiGravityAbsolutePath) {
         try {
-            var success = openreg("CURRENTUSER", "SOFTWARE\\Classes\\Applications\\Antigravity.exe\\shell\\open");
+            var success = openreg("CURRENTUSER", "SOFTWARE\\Classes\\Applications\\Antigravity IDE.exe\\shell\\open");
             if (success) {
                 antiGravityAbsolutePath = getregstr("Icon");
                 antiGravityAbsolutePath = antiGravityAbsolutePath.replace(/"/g, '');
@@ -53,18 +53,18 @@ function getAntiGravityAbsolutePath() {
     }
     if (!antiGravityAbsolutePath) {
         // Whereで見つかるようならzipか何かで展開しただけのものを、手動でパスを通しているのだろう。
-        runex("where antigravity.cmd", 1, 0, "", 0, "", 0, "", 0, "", 2, 0, 0, 0);
+        runex("where antigravity-ide.cmd", 1, 0, "", 0, "", 0, "", 0, "", 2, 0, 0, 0);
         // 発見したようだ。
         if (getresultex(9) == 0) {
-            antiGravityAbsolutePath = "antigravity.cmd";
+            antiGravityAbsolutePath = "antigravity-ide.cmd";
         }
     }
     if (!antiGravityAbsolutePath) {
         // Whereで見つかるようならzipか何かで展開しただけのものを、手動でパスを通しているのだろう。
-        runex("where antigravity.exe", 1, 0, "", 0, "", 0, "", 0, "", 2, 0, 0, 0);
+        runex("where antigravity-ide.exe", 1, 0, "", 0, "", 0, "", 0, "", 2, 0, 0, 0);
         // 発見したようだ。
         if (getresultex(9) == 0) {
-            antiGravityAbsolutePath = "antigravity.exe";
+            antiGravityAbsolutePath = "antigravity-ide.exe";
         }
     }
 
